@@ -119,22 +119,30 @@ const UserProfilePage = () => {
 
             {/* Stats */}
             <div className="grid grid-cols-2 md:flex md:space-x-6 gap-4 mb-8">
-              <div className="text-center p-3 bg-gray-800 rounded-lg">
-                <span className="font-bold text-white block">{stats.posts}</span>
-                <span className="text-gray-400">Posts</span>
-              </div>
-              <div className="text-center p-3 bg-gray-800 rounded-lg">
-                <span className="font-bold text-white block">{stats.followers}</span>
-                <span className="text-gray-400">Followers</span>
-              </div>
-              <div className="text-center p-3 bg-gray-800 rounded-lg">
-                <span className="font-bold text-white block">{stats.following}</span>
-                <span className="text-gray-400">Following</span>
-              </div>
-              <div className="text-center p-3 bg-gray-800 rounded-lg">
-                <span className="font-bold text-white block">{stats.likes}</span>
-                <span className="text-gray-400">Likes</span>
-              </div>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                className="p-4 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-700/30 hover:border-gray-600/50 transition-all duration-300 shadow-lg hover:shadow-xl">
+                <span className="font-medium text-2xl text-white block mb-1">{stats.posts}</span>
+                <span className="text-gray-400 text-sm tracking-wide">Posts</span>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                className="p-4 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-700/30 hover:border-gray-600/50 transition-all duration-300 shadow-lg hover:shadow-xl">
+                <span className="font-medium text-2xl text-white block mb-1">{stats.followers}</span>
+                <span className="text-gray-400 text-sm tracking-wide">Followers</span>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                className="p-4 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-700/30 hover:border-gray-600/50 transition-all duration-300 shadow-lg hover:shadow-xl">
+                <span className="font-medium text-2xl text-white block mb-1">{stats.following}</span>
+                <span className="text-gray-400 text-sm tracking-wide">Following</span>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                className="p-4 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-700/30 hover:border-gray-600/50 transition-all duration-300 shadow-lg hover:shadow-xl">
+                <span className="font-medium text-2xl text-white block mb-1">{stats.likes}</span>
+                <span className="text-gray-400 text-sm tracking-wide">Likes</span>
+              </motion.div>
             </div>
 
             {/* Recent Posts */}

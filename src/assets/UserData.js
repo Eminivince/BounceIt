@@ -1,3 +1,14 @@
+import videoframe0 from "./thumbnails/videoframe_0.png"
+import videoframe1 from "./thumbnails/videoframe_0 (1).png";
+import videoframe2 from "./thumbnails/videoframe_0 (2).png";
+import videoframe3 from "./thumbnails/videoframe_0 (3).png";
+import videoframe4 from "./thumbnails/videoframe_0 (4).png";
+import videoframe5 from "./thumbnails/videoframe_0 (5).png";
+import videoframe6 from "./thumbnails/videoframe_0 (6).png";
+import videoframe7 from "./thumbnails/videoframe_0 (7).png";
+import videoframe8 from "./thumbnails/videoframe_0 (8).png"; //Healthy cheff
+import videoframe9 from "./thumbnails/videoframe_0 (9).png";
+
 export const posts = [
   {
     id: 1,
@@ -10,8 +21,7 @@ export const posts = [
     content: "Check out my latest dance routine! 💃 #DanceLife #Fitness",
     video:
       "https://video.twimg.com/amplify_video/1881486762985312257/vid/avc1/718x1280/YlpuJRHrNyAxf1Jf.mp4?tag=14",
-    thumbnail:
-      "https://images.unsplash.com/photo-1601288496920-b6154fe3626a?w=600&h=400&fit=crop",
+    thumbnail: videoframe0,
     likes: 1234,
     comments: 89,
     shares: 45,
@@ -28,8 +38,7 @@ export const posts = [
     content: "New workout tutorial! Build those muscles 💪 #Workout #Fitness",
     video:
       "https://video.twimg.com/amplify_video/1871405838163734528/vid/avc1/1080x1634/nBOyYCj4VF1qHol8.mp4?tag=16",
-    thumbnail:
-      "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&h=400&fit=crop",
+    thumbnail: videoframe1,
     likes: 856,
     comments: 67,
     shares: 23,
@@ -47,8 +56,7 @@ export const posts = [
       "Easy healthy recipe tutorial! Perfect for post-workout 🥗 #Cooking #Healthy",
     video:
       "https://video.twimg.com/amplify_video/1891530127806271489/vid/avc1/720x1280/UL9Gyopp6SuHAPpC.mp4?tag=14",
-    thumbnail:
-      "https://images.unsplash.com/photo-1547592180-85f173990554?w=600&h=400&fit=crop",
+    thumbnail: videoframe2,
     likes: 567,
     comments: 45,
     shares: 12,
@@ -65,8 +73,7 @@ export const posts = [
     content: "Morning yoga flow for beginners 🧘‍♀️ #Yoga #Wellness",
     video:
       "https://video.twimg.com/amplify_video/1690584925202952192/vid/1280x720/EoXR5Gzk3Say6EBe.mp4?tag=14",
-    thumbnail:
-      "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&h=400&fit=crop",
+    thumbnail: videoframe3,
     likes: 923,
     comments: 78,
     shares: 34,
@@ -83,8 +90,7 @@ export const posts = [
     content: "Street dance battle highlights! 🔥 #StreetDance #Urban",
     video:
       "https://video.twimg.com/amplify_video/1892600284586635264/vid/avc1/720x1280/gJUe2IVs9vlZlJUs.mp4?tag=14",
-    thumbnail:
-      "https://images.unsplash.com/photo-1547153760-18fc86324498?w=600&h=400&fit=crop",
+    thumbnail: videoframe4,
     likes: 1567,
     comments: 145,
     shares: 89,
@@ -102,8 +108,7 @@ export const posts = [
       "10-minute guided meditation for stress relief 🧘‍♂️ #Meditation #MentalHealth",
     video:
       "https://video.twimg.com/ext_tw_video/1703147771287445504/pu/vid/avc1/720x1280/qA2WrUUP-TT0n6PE.mp4?tag=12",
-    thumbnail:
-      "https://images.unsplash.com/photo-1591228127791-8e2eaef098d3?w=600&h=400&fit=crop",
+    thumbnail: videoframe5,
     likes: 789,
     comments: 56,
     shares: 102,
@@ -120,8 +125,7 @@ export const posts = [
     content: "HIIT workout for maximum calorie burn 🏃‍♂️ #HIIT #CardioWorkout",
     video:
       "https://video.twimg.com/amplify_video/1375506233751396356/vid/1280x720/_qXeQjMhOJNiFYNL.mp4?tag=14",
-    thumbnail:
-      "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=600&h=400&fit=crop",
+    thumbnail: videoframe6,
     likes: 645,
     comments: 43,
     shares: 28,
@@ -138,8 +142,7 @@ export const posts = [
     content: "Core strengthening Pilates routine 💪 #Pilates #CoreWorkout",
     video:
       "https://video.twimg.com/amplify_video/1375543452021186565/vid/606x1080/bwnbHj1il2WT-64l.mp4?tag=14",
-    thumbnail:
-      "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&h=400&fit=crop",
+    thumbnail: videoframe7,
     likes: 834,
     comments: 67,
     shares: 45,
@@ -157,8 +160,7 @@ export const posts = [
       "Quick and nutritious breakfast ideas 🥑 #HealthyEating #Breakfast",
     video:
       "https://video.twimg.com/ext_tw_video/1746829546924466176/pu/vid/avc1/720x1280/aBUEa3vAMpLMwEym.mp4?tag=12",
-    thumbnail:
-      "https://images.unsplash.com/photo-1494859802809-d069c3b71a8a?w=600&h=400&fit=crop",
+    thumbnail: videoframe8,
     likes: 923,
     comments: 78,
     shares: 56,
@@ -176,8 +178,7 @@ export const posts = [
       "Full body stretching routine for flexibility 🤸‍♀️ #Stretching #Flexibility",
     video:
       "https://video.twimg.com/amplify_video/1690584925202952192/vid/1280x720/EoXR5Gzk3Say6EBe.mp4?tag=14",
-    thumbnail:
-      "https://images.unsplash.com/photo-1518459031867-a89b944bffe4?w=600&h=400&fit=crop",
+    thumbnail: videoframe9,
     likes: 756,
     comments: 89,
     shares: 34,
@@ -194,8 +195,7 @@ export const posts = [
     content: "Boxing fundamentals for beginners 🥊 #Boxing #MartialArts",
     video:
       "https://video.twimg.com/amplify_video/1690584925202952192/vid/1280x720/EoXR5Gzk3Say6EBe.mp4?tag=14",
-    thumbnail:
-      "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=600&h=400&fit=crop",
+    thumbnail: videoframe9,
     likes: 867,
     comments: 56,
     shares: 45,
@@ -213,8 +213,7 @@ export const posts = [
       "Evening relaxation techniques for better sleep 😴 #Mindfulness #Sleep",
     video:
       "https://video.twimg.com/amplify_video/1690584925202952192/vid/1280x720/EoXR5Gzk3Say6EBe.mp4?tag=14",
-    thumbnail:
-      "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&h=400&fit=crop",
+    thumbnail: videoframe9,
     likes: 678,
     comments: 45,
     shares: 23,
@@ -231,8 +230,7 @@ export const posts = [
     content: "Proper form for deadlifts 🏋️‍♂️ #Strength #Technique",
     video:
       "https://video.twimg.com/amplify_video/1690584925202952192/vid/1280x720/EoXR5Gzk3Say6EBe.mp4?tag=14",
-    thumbnail:
-      "https://images.unsplash.com/photo-1534367507873-d2d7e24c797f?w=600&h=400&fit=crop",
+    thumbnail: videoframe9,
     likes: 945,
     comments: 87,
     shares: 56,
@@ -249,8 +247,7 @@ export const posts = [
     content: "Contemporary dance choreography 💫 #Contemporary #DanceFusion",
     video:
       "https://video.twimg.com/amplify_video/1690584925202952192/vid/1280x720/EoXR5Gzk3Say6EBe.mp4?tag=14",
-    thumbnail:
-      "https://images.unsplash.com/photo-1518459031867-a89b944bffe4?w=600&h=400&fit=crop",
+    thumbnail: videoframe9,
     likes: 1023,
     comments: 92,
     shares: 67,
@@ -267,8 +264,7 @@ export const posts = [
     content: "Self-care routine for busy professionals 🌿 #SelfCare #Wellness",
     video:
       "https://video.twimg.com/amplify_video/1690584925202952192/vid/1280x720/EoXR5Gzk3Say6EBe.mp4?tag=14",
-    thumbnail:
-      "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&h=400&fit=crop",
+    thumbnail: videoframe9,
     likes: 834,
     comments: 76,
     shares: 45,

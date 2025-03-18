@@ -11,10 +11,63 @@ const MainPage = () => {
   const dispatch = useDispatch();
   const [hoveredVideo, setHoveredVideo] = useState(null);
   const [commentText, setCommentText] = useState('');
+  const [postText, setPostText] = useState('');
+  const [selectedMedia, setSelectedMedia] = useState([]);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const posts = useSelector(selectAllPosts);
   const likedPosts = useSelector(selectLikedPosts);
   const activeComments = useSelector(selectActiveComments);
   const showShareMenu = useSelector(selectShowShareMenu);
+
+  const handleMediaUpload = (e) => {
+    const files = Array.from(e.target.files);
+    const newMedia = files.map(file => ({
+      file,
+      preview: URL.createObjectURL(file),
+      type: file.type.startsWith('image/') ? 'image' : 'video'
+    }));
+    setSelectedMedia([...selectedMedia, ...newMedia]);
+  };
+
+  const removeMedia = (index) => {
+    setSelectedMedia(prev => {
+      const newMedia = [...prev];
+      URL.revokeObjectURL(newMedia[index].preview);
+      newMedia.splice(index, 1);
+      return newMedia;
+    });
+  };
+
+  const handlePost = async () => {
+    if (!postText.trim() && selectedMedia.length === 0) return;
+
+    try {
+      setUploadProgress(0);
+      // Simulate upload progress
+      const interval = setInterval(() => {
+        setUploadProgress(prev => {
+          if (prev >= 90) {
+            clearInterval(interval);
+            return prev;
+          }
+          return prev + 10;
+        });
+      }, 500);
+
+      // Here you would typically upload the media files and create the post
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      clearInterval(interval);
+      setUploadProgress(100);
+
+      // Clear the form
+      setPostText('');
+      selectedMedia.forEach(media => URL.revokeObjectURL(media.preview));
+      setSelectedMedia([]);
+      setUploadProgress(0);
+    } catch (error) {
+      console.error('Error creating post:', error);
+    }
+  };
 
   const handleLike = (postId) => {
     dispatch(toggleLike(postId));
@@ -61,23 +114,107 @@ const MainPage = () => {
           <div className="mb-4">
             <div className="border border-gray-700 rounded-lg p-4 bg-gray-800">
               <textarea
+                value={postText}
+                onChange={(e) => setPostText(e.target.value)}
                 placeholder="Compose new post..."
                 className="w-full resize-none focus:outline-none bg-gray-800 text-gray-200 placeholder-gray-500"
                 rows="4"
               />
-              <div className="flex items-center space-x-4 mt-4">
-                <button className="p-2 text-gray-400 hover:bg-gray-700 rounded-lg">
-                  📎
-                </button>
-                <button className="p-2 text-gray-400 hover:bg-gray-700 rounded-lg">
-                  📋
-                </button>
-                <button className="p-2 text-gray-400 hover:bg-gray-700 rounded-lg">
-                  🖼️
-                </button>
-                <button className="p-2 text-gray-400 hover:bg-gray-700 rounded-lg">
-                  Aa
-                </button>
+              <div className="mt-4 space-y-4">
+                {/* Media Preview */}
+                <div className="relative">
+                  <input
+                    type="file"
+                    accept="image/*,video/*"
+                    className="hidden"
+                    id="media-upload"
+                    onChange={handleMediaUpload}
+                    multiple
+                  />
+                  {selectedMedia.length > 0 && (
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                      {selectedMedia.map((media, index) => (
+                        <div key={index} className="relative rounded-lg overflow-hidden">
+                          {media.type === 'image' ? (
+                            <img
+                              src={media.preview}
+                              alt="Upload preview"
+                              className="w-full h-48 object-cover"
+                            />
+                          ) : (
+                            <video
+                              src={media.preview}
+                              className="w-full h-48 object-cover"
+                              controls
+                            />
+                          )}
+                          <motion.button
+                            onClick={() => removeMedia(index)}
+                            className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full"
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                          >
+                            ✕
+                          </motion.button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {uploadProgress > 0 && uploadProgress < 100 && (
+                    <div className="mt-4">
+                      <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-blue-500 transition-all duration-300"
+                          style={{ width: `${uploadProgress}%` }}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    <motion.label
+                      htmlFor="media-upload"
+                      className="p-2 text-gray-400 hover:bg-gray-700 rounded-lg cursor-pointer"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      📎
+                    </motion.label>
+                    <motion.button
+                      className="p-2 text-gray-400 hover:bg-gray-700 rounded-lg"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      📋
+                    </motion.button>
+                    <motion.button
+                      className="p-2 text-gray-400 hover:bg-gray-700 rounded-lg"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      🖼️
+                    </motion.button>
+                    <motion.button
+                      className="p-2 text-gray-400 hover:bg-gray-700 rounded-lg"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      Aa
+                    </motion.button>
+                  </div>
+                  <motion.button
+                    onClick={handlePost}
+                    disabled={uploadProgress > 0 && uploadProgress < 100}
+                    className={`px-4 py-2 bg-blue-600 text-white rounded-lg ${uploadProgress > 0 && uploadProgress < 100 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'}`}
+                    whileHover={uploadProgress === 0 ? { scale: 1.05 } : {}}
+                    whileTap={uploadProgress === 0 ? { scale: 0.95 } : {}}
+                  >
+                    {uploadProgress > 0 && uploadProgress < 100 ? 'Posting...' : 'Post'}
+                  </motion.button>
+                </div>
               </div>
             </div>
           </div>
@@ -110,16 +247,29 @@ const MainPage = () => {
                 <p className="px-4 mb-3 text-gray-300">{post.content}</p>
 
                 <div className="relative aspect-video bg-black" onMouseEnter={() => setHoveredVideo(post.id)} onMouseLeave={() => setHoveredVideo(null)}>
+                  <img
+                    src={post.thumbnail}
+                    alt={`${post.user.name}'s video thumbnail`}
+                    className={`w-full h-full object-cover ${hoveredVideo === post.id ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
+                  />
                   <video
                     src={post.video}
-                    className="w-full h-full object-cover"
+                    className={`absolute inset-0 w-full h-full object-cover ${hoveredVideo === post.id ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
                     autoPlay={hoveredVideo === post.id}
                     loop
                     playsInline
-                    
-                    controls
+                    controls={hoveredVideo === post.id}
                     preload="metadata"
                   />
+                  {hoveredVideo !== post.id && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-16 h-16 bg-black bg-opacity-50 rounded-full flex items-center justify-center group-hover:bg-opacity-70 transition-all">
+                        <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M8 5v14l11-7z"/>
+                        </svg>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="p-4 space-y-4">
