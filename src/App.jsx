@@ -8,6 +8,7 @@ import CollectionsPage from './Pages/CollectionsPage'
 import SubscriptionsPage from './Pages/SubscriptionsPage'
 import AddCardPage from './Pages/AddCardPage'
 import ProfilePage from './Pages/ProfilePage'
+import UserProfilePage from './Pages/UserProfilePage'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/subscriptions" element={<SubscriptionsPage />} />
         <Route path="/add-card" element={<AddCardPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/user/:username" element={<UserProfilePage />} />
       </Routes>
     </BrowserRouter>
   )

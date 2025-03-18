@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const RightSection = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const suggestions = [
     {
       name: "Lil Kitty",
@@ -27,16 +29,19 @@ const RightSection = () => {
   return (
     <>
       {/* Mobile Toggle Button */}
-      <motion.button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`md:hidden fixed top-4 z-50 py-1 px-3 rounded-lg bg-blue-600 text-white shadow-lg ${
-          isOpen ? "left-4" : "right-4"
-        }`}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        {isOpen ? "✕" : "Suggested"}
-      </motion.button>
+      <AnimatePresence>
+        {!showMobileSearch && (
+          <motion.button
+            onClick={() => setIsOpen(!isOpen)}
+            className={`md:hidden fixed z-0 top-4 z-50 py-1 px-3 rounded-lg bg-blue-600 text-white shadow-lg ${
+              isOpen ? "left-4" : "right-5"
+            }`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}>
+            {isOpen ? "✕" : "Suggested"}
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* Mobile Backdrop */}
       <AnimatePresence>
@@ -53,17 +58,15 @@ const RightSection = () => {
 
       {/* Right Section Panel */}
       <motion.div
-        className={`fixed top-0 h-screen p-4 border-l border-gray-700 bg-gray-900 z-50 w-80 md:fixed md:right-0`}
+        className={`fixed top-0 h-screen p-4 border-l border-gray-700 bg-gray-900 z-50 w-80 md:fixed right-0 md:w-96 transition-transform duration-300 ease-in-out`}
         initial={{ x: 500 }}
         animate={{ x: isOpen || window.innerWidth >= 768 ? 0 : 500 }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      >
-        <motion.div 
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}>
+        <motion.div
           className="mb-4"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
+          transition={{ delay: 0.2 }}>
           <input
             type="text"
             placeholder="Search posts"
@@ -72,12 +75,11 @@ const RightSection = () => {
         </motion.div>
 
         <div className="mb-4">
-          <motion.h2 
+          <motion.h2
             className="text-gray-400 font-medium mb-2"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
-          >
+            transition={{ delay: 0.3 }}>
             SUGGESTIONS
           </motion.h2>
           <div className="space-y-4">
@@ -88,8 +90,7 @@ const RightSection = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 + index * 0.1 }}
-                whileHover={{ scale: 1.02 }}
-              >
+                whileHover={{ scale: 1.02 }}>
                 <div className="flex items-center space-x-3">
                   <motion.img
                     src={user.avatar}
@@ -102,11 +103,10 @@ const RightSection = () => {
                     <p className="text-sm text-gray-500">{user.username}</p>
                   </div>
                 </div>
-                <motion.button 
+                <motion.button
                   className="text-blue-400 hover:text-blue-500"
                   whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
+                  whileTap={{ scale: 0.9 }}>
                   Follow
                 </motion.button>
               </motion.div>

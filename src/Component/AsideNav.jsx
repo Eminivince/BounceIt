@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const AsideNav = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const navItems = [
     { icon: "🏠", label: "Home", path: "/main" },
@@ -19,13 +21,49 @@ const AsideNav = () => {
 
   const mobileNavItems = [
     { icon: '🏠', label: 'Home', path: '/main' },
-    { icon: '🔍', label: 'Search', path: '/search' },
+    { icon: '🔍', label: 'Search', action: () => setShowSearch(true) },
     { icon: '🔔', label: 'Notifications', path: '/notifications' },
     { icon: '💬', label: 'Messages', path: '/messages' },
   ];
 
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+    // Implement search logic here
+  };
+
   return (
     <>
+      {/* Search Overlay */}
+      <AnimatePresence>
+        {showSearch && (
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-x-0 top-0 z-50 bg-gray-900 bg-opacity-95 p-4 shadow-lg"
+          >
+            <div className="relative flex items-center z-9999">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={handleSearch}
+                placeholder="Search for people..."
+                className="w-full bg-gray-800 text-white rounded-lg pl-10 pr-12 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                autoFocus
+              />
+              <span className="absolute left-3 text-gray-400">🔍</span>
+              <button
+                onClick={() => setShowSearch(false)}
+                className="absolute right-3 text-gray-400 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Desktop Navigation */}
       <motion.aside 
         initial={{ x: -100, opacity: 0 }}
@@ -73,7 +111,7 @@ const AsideNav = () => {
           {mobileNavItems.map((item, index) => (
             <motion.button
               key={index}
-              onClick={() => navigate(item.path)}
+              onClick={() => item.action ? item.action() : navigate(item.path)}
               className={`flex flex-col items-center justify-center flex-1 h-full ${location.pathname === item.path ? 'text-blue-500' : 'text-gray-400'}`}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}

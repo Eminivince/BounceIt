@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AsideNav from '../Component/AsideNav';
 import RightSection from '../Component/RightSection';
+import { motion } from 'framer-motion';
 
 const NotificationsPage = () => {
   const navigate = useNavigate();
-  const notifications = [
+  const [notifications, setNotifications] = useState([
     {
       id: 1,
       user: {
@@ -36,7 +37,7 @@ const NotificationsPage = () => {
       action: "commented on your post",
       timestamp: "6h ago"
     }
-  ];
+  ]);
 
   return (
     <div className="flex min-h-screen bg-gray-900">
@@ -52,29 +53,66 @@ const NotificationsPage = () => {
             onClick={() => navigate('/profile')}
           />
           <h1 className="text-xl font-bold text-white">Notifications</h1>
-          <div className="w-8"></div> {/* Spacer for alignment */}
+          <div className="w-8"></div>
         </div>
+
         <div className="max-w-2xl mx-auto py-4 px-4">
-          <h1 className="text-2xl font-bold mb-6 text-white">Notifications</h1>
+          {/* Desktop Header */}
+          <div className="hidden md:flex justify-between items-center mb-6">
+            <h1 className="text-2xl font-bold text-white">Notifications</h1>
+            <motion.button
+              onClick={() => setNotifications([])}
+              className="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Clear All
+            </motion.button>
+          </div>
           
           <div className="space-y-4">
             {notifications.map(notification => (
-              <div key={notification.id} className="flex items-center space-x-4 p-4 border border-gray-700 rounded-lg bg-gray-800 hover:bg-gray-700">
+              <motion.div
+                key={notification.id}
+                className="flex items-center space-x-4 p-4 border border-gray-700 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
                 <img
                   src={notification.user.avatar}
                   alt={notification.user.name}
                   className="w-10 h-10 rounded-full"
                 />
-                <div>
-                  <p className="text-gray-200">
+                <div className="flex-1 min-w-0">
+                  <p className="text-gray-200 truncate">
                     <span className="font-medium text-white">{notification.user.name}</span>
                     {' '}{notification.action}
                   </p>
                   <p className="text-sm text-gray-400">{notification.timestamp}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
+
+            {notifications.length === 0 && (
+              <div className="text-center py-8 text-gray-400">
+                No notifications yet
+              </div>
+            )}
           </div>
+
+          {/* Mobile Clear All Button */}
+          {notifications.length > 0 && (
+            <motion.button
+              onClick={() => setNotifications([])}
+              className="md:hidden w-full mt-4 px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Clear All
+            </motion.button>
+          )}
         </div>
       </main>
 

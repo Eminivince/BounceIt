@@ -1,12 +1,44 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import AsideNav from '../Component/AsideNav';
 import RightSection from '../Component/RightSection';
-import { posts } from '../assets/UserData';
+import { motion, AnimatePresence } from 'framer-motion';
+import { toggleLike, setActiveComments, setShowShareMenu, addComment, sharePost, selectAllPosts, selectLikedPosts, selectActiveComments, selectShowShareMenu } from '../store/slices/postSlice';
 
 const MainPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [hoveredVideo, setHoveredVideo] = useState(null);
+  const [commentText, setCommentText] = useState('');
+  const posts = useSelector(selectAllPosts);
+  const likedPosts = useSelector(selectLikedPosts);
+  const activeComments = useSelector(selectActiveComments);
+  const showShareMenu = useSelector(selectShowShareMenu);
+
+  const handleLike = (postId) => {
+    dispatch(toggleLike(postId));
+  };
+
+  const handleComment = (postId) => {
+    dispatch(setActiveComments(activeComments === postId ? null : postId));
+    setCommentText('');
+  };
+
+  const handleShare = (postId) => {
+    dispatch(setShowShareMenu(showShareMenu === postId ? null : postId));
+  };
+
+  const submitComment = (postId) => {
+    if (!commentText.trim()) return;
+    dispatch(addComment({ postId, comment: commentText }));
+    setCommentText('');
+    dispatch(setActiveComments(null));
+  };
+
+  const handleUserClick = (username) => {
+    navigate(`/user/${username}`);
+  };
 
   return (
     <div className="flex min-h-screen bg-gray-900">
@@ -66,9 +98,10 @@ const MainPage = () => {
                   <img
                     src={post.user.avatar}
                     alt={post.user.name}
-                    className="w-10 h-10 rounded-full"
+                    className="w-10 h-10 rounded-full cursor-pointer"
+                    onClick={() => handleUserClick(post.user.username)}
                   />
-                  <div>
+                  <div className="cursor-pointer" onClick={() => handleUserClick(post.user.username)}>
                     <h3 className="font-medium text-white">{post.user.name}</h3>
                     <p className="text-sm text-gray-400">{post.user.username} · {post.timestamp}</p>
                   </div>
@@ -76,70 +109,127 @@ const MainPage = () => {
 
                 <p className="px-4 mb-3 text-gray-300">{post.content}</p>
 
-                <div className="relative aspect-video bg-black">
-                  <div 
-                    className="relative w-full h-full"
-                    onMouseEnter={() => setHoveredVideo(post.id)}
-                    onMouseLeave={() => setHoveredVideo(null)}
-                  >
-                    {hoveredVideo === post.id ? (
-                      <video
-                        src={post.video}
-                        className="w-full h-full object-cover"
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                      />
-                    ) : (
-                      <>
-                        <img
-                          src={post.thumbnail}
-                          alt="Video thumbnail"
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="bg-black bg-opacity-50 rounded-full p-4">
-                            <svg
-                              className="w-12 h-12 text-white"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-                              />
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                              />
-                            </svg>
-                          </div>
-                        </div>
-                      </>
-                    )}
-                  </div>
+                <div className="relative aspect-video bg-black" onMouseEnter={() => setHoveredVideo(post.id)} onMouseLeave={() => setHoveredVideo(null)}>
+                  <video
+                    src={post.video}
+                    className="w-full h-full object-cover"
+                    autoPlay={hoveredVideo === post.id}
+                    loop
+                    playsInline
+                    muted
+                    controls
+                    preload="metadata"
+                  />
                 </div>
 
-                <div className="p-4 flex items-center justify-between">
-                  <button className="flex items-center space-x-2 text-gray-400 hover:text-blue-500">
-                    <span>❤️</span>
-                    <span>{post.likes}</span>
-                  </button>
-                  <button className="flex items-center space-x-2 text-gray-400 hover:text-blue-500">
-                    <span>💬</span>
-                    <span>{post.comments}</span>
-                  </button>
-                  <button className="flex items-center space-x-2 text-gray-400 hover:text-blue-500">
-                    <span>↗️</span>
-                    <span>{post.shares}</span>
-                  </button>
+                <div className="p-4 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <motion.button
+                      onClick={() => handleLike(post.id)}
+                      className={`flex items-center space-x-2 ${likedPosts.includes(post.id) ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <motion.span
+                        animate={{
+                          scale: likedPosts.includes(post.id) ? [1, 1.2, 1] : 1
+                        }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        {likedPosts.includes(post.id) ? '❤️' : '🤍'}
+                      </motion.span>
+                      <span>{likedPosts.includes(post.id) ? post.likes + 1 : post.likes}</span>
+                    </motion.button>
+                    <motion.button
+                      onClick={() => handleComment(post.id)}
+                      className="flex items-center space-x-2 text-gray-400 hover:text-blue-500"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <span>💬</span>
+                      <span>{post.comments}</span>
+                    </motion.button>
+                    <motion.div className="relative">
+                      <motion.button
+                        onClick={() => handleShare(post.id)}
+                        className="flex items-center space-x-2 text-gray-400 hover:text-blue-500"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <span>↗️</span>
+                        <span>{post.shares}</span>
+                      </motion.button>
+                      <AnimatePresence>
+                        {showShareMenu === post.id && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 10 }}
+                            className="absolute bottom-full right-0 mb-2 bg-gray-800 rounded-lg shadow-lg p-2 min-w-[150px]"
+                          >
+                            <div className="space-y-2">
+                              <button className="w-full text-left px-3 py-2 text-gray-300 hover:bg-gray-700 rounded">Copy Link</button>
+                              <button className="w-full text-left px-3 py-2 text-gray-300 hover:bg-gray-700 rounded">Share to Twitter</button>
+                              <button className="w-full text-left px-3 py-2 text-gray-300 hover:bg-gray-700 rounded">Share to Facebook</button>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+                  </div>
+                  
+                  <AnimatePresence>
+                    {activeComments === post.id && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="border-t border-gray-700 pt-4 space-y-4">
+                          <div className="flex space-x-2">
+                            <img
+                              src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=50&h=50&fit=crop"
+                              alt="Your avatar"
+                              className="w-8 h-8 rounded-full"
+                            />
+                            <div className="flex-1 flex space-x-2">
+                              <input
+                                type="text"
+                                value={commentText}
+                                onChange={(e) => setCommentText(e.target.value)}
+                                placeholder="Write a comment..."
+                                className="flex-1 bg-gray-700 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              />
+                              <motion.button
+                                onClick={() => submitComment(post.id)}
+                                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                Post
+                              </motion.button>
+                            </div>
+                          </div>
+                          <div className="space-y-4">
+                            {/* Example comments */}
+                            <div className="flex space-x-2">
+                              <img
+                                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=50&h=50&fit=crop"
+                                alt="Commenter avatar"
+                                className="w-8 h-8 rounded-full"
+                              />
+                              <div className="flex-1 bg-gray-700 rounded-lg p-3">
+                                <p className="font-medium text-white">Sarah Dance</p>
+                                <p className="text-gray-300">Amazing performance! 🔥</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </div>
             ))}
