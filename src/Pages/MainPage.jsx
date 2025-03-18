@@ -257,7 +257,6 @@ const MainPage = () => {
                     className={`absolute inset-0 w-full h-full object-contain ${hoveredVideo === post.id ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
                     autoPlay={hoveredVideo === post.id}
                     loop
-                    playsInline
                     controls={hoveredVideo === post.id}
                     preload="metadata"
                     onLoadedMetadata={(e) => {
