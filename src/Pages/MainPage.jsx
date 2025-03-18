@@ -246,7 +246,7 @@ const MainPage = () => {
 
                 <p className="px-4 mb-3 text-gray-300">{post.content}</p>
 
-                <div className="relative aspect-video bg-black group" onMouseEnter={() => setHoveredVideo(post.id)} onMouseLeave={() => setHoveredVideo(null)}>
+                <div className="relative bg-black group" onMouseEnter={() => setHoveredVideo(post.id)} onMouseLeave={() => setHoveredVideo(null)}>
                   <img
                     src={post.thumbnail}
                     alt={`${post.user.name}'s video thumbnail`}
@@ -260,9 +260,7 @@ const MainPage = () => {
                     playsInline
                     controls={hoveredVideo === post.id}
                     preload="metadata"
-                    onLoadedMetadata={(e) => {
-                      // Using fixed aspect ratio for consistent card dimensions
-                    }}
+                    
                   />
                   {hoveredVideo !== post.id && (
                     <div className="absolute inset-0 flex items-center justify-center">
