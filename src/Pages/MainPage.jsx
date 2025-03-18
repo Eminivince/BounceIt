@@ -106,7 +106,7 @@ const MainPage = () => {
             className="w-8 h-8 rounded-full cursor-pointer"
             onClick={() => navigate('/profile')}
           />
-          <h1 className="text-xl font-bold text-white">Home</h1>
+          <h1 className="text-xl font-bold text-white">BounceIt</h1>
           <div className="w-8"></div> {/* Spacer for alignment */}
         </div>
 

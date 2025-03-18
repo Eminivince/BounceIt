@@ -46,35 +46,47 @@ const SubscriptionsPage = () => {
     <div className="flex min-h-screen bg-gray-900">
       <AsideNav />
       
-      <main className="flex-1 ml-64 mr-80">
+      <main className="flex-1 md:ml-64 md:mr-80">
+        {/* Mobile Header */}
+        <div className="md:hidden flex items-center justify-between p-4 border-b border-gray-700 bg-gray-900 sticky top-0 z-40">
+          <img
+            src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop"
+            alt="Profile"
+            className="w-8 h-8 rounded-full cursor-pointer"
+            onClick={() => navigate('/profile')}
+          />
+          <h1 className="text-xl font-bold text-white">Subscriptions</h1>
+          <div className="w-8"></div>
+        </div>
+
         <div className="max-w-2xl mx-auto py-4 px-4">
-          <h1 className="text-2xl font-bold mb-6 text-white">Subscriptions</h1>
+          <h1 className="text-2xl font-bold mb-6 text-white hidden md:block">Subscriptions</h1>
           
           <div className="space-y-6">
             {subscriptions.map(sub => (
               <div key={sub.id} className="border border-gray-700 rounded-lg p-4 bg-gray-800 hover:bg-gray-700">
-                <div className="flex items-start space-x-4">
+                <div className="flex flex-col md:flex-row md:items-start md:space-x-4">
                   <img
                     src={sub.creator.avatar}
                     alt={sub.creator.name}
-                    className="w-16 h-16 rounded-full"
+                    className="w-16 h-16 rounded-full mx-auto md:mx-0 mb-4 md:mb-0"
                   />
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
+                  <div className="flex-1 text-center md:text-left">
+                    <div className="flex flex-col md:flex-row items-center md:items-start md:justify-between">
                       <div>
                         <h3 className="font-medium text-lg text-white">{sub.creator.name}</h3>
                         <p className="text-gray-400">{sub.creator.username}</p>
                       </div>
-                      <button className="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700">
+                      <button className="mt-3 md:mt-0 px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 w-full md:w-auto">
                         Subscribed
                       </button>
                     </div>
                     <p className="text-gray-300 mt-2">{sub.creator.description}</p>
-                    <div className="flex items-center space-x-4 mt-3 text-sm text-gray-400">
+                    <div className="flex flex-wrap justify-center md:justify-start gap-2 md:gap-4 mt-3 text-sm text-gray-400">
                       <span>{sub.creator.followers} followers</span>
-                      <span>•</span>
+                      <span className="hidden md:inline">•</span>
                       <span>{sub.recentPosts} new posts</span>
-                      <span>•</span>
+                      <span className="hidden md:inline">•</span>
                       <span>Active {sub.lastActive}</span>
                     </div>
                   </div>

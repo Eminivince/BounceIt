@@ -33,12 +33,10 @@ const RightSection = () => {
         {!showMobileSearch && (
           <motion.button
             onClick={() => setIsOpen(!isOpen)}
-            className={`md:hidden fixed z-0 top-4 z-50 py-1 px-3 rounded-lg bg-blue-600 text-white shadow-lg ${
-              isOpen ? "left-4" : "right-5"
-            }`}
+            className={`hidden md:block fixed z-0 top-4 z-50 py-1 px-3 rounded-lg bg-blue-600 text-white shadow-lg ${isOpen ? 'left-4' : 'right-5'}`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}>
-            {isOpen ? "✕" : "Suggested"}
+            {isOpen ? '✕' : 'Suggested'}
           </motion.button>
         )}
       </AnimatePresence>
