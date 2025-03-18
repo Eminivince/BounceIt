@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import AsideNav from '../Component/AsideNav';
-import RightSection from '../Component/RightSection';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import AsideNav from "../Component/AsideNav";
+import RightSection from "../Component/RightSection";
+import { motion, AnimatePresence } from "framer-motion";
+import videoframe_0 from "../assets/thumbnails/videoframe_0.png";
 
 const MessagesPage = () => {
   const navigate = useNavigate();
   const [selectedChat, setSelectedChat] = useState(null);
-  const [messageInput, setMessageInput] = useState('');
+  const [messageInput, setMessageInput] = useState("");
   const [showMobileChat, setShowMobileChat] = useState(false);
   const [selectedMedia, setSelectedMedia] = useState([]);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -18,83 +19,112 @@ const MessagesPage = () => {
       user: {
         name: "Sarah Dance",
         username: "@sarah_dance",
-        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
-        online: true
+        avatar:
+          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
+        online: true,
       },
       lastMessage: "Hey! Thanks for following my dance tutorials! 💃",
       timestamp: "2h ago",
       unread: 2,
       chatHistory: [
-        { id: 1, text: "Hi! I love your dance tutorials!", sender: "me", timestamp: "2h ago" },
-        { id: 2, text: "Hey! Thanks for following my dance tutorials! 💃", sender: "them", timestamp: "2h ago", media: null }
-      ]
+        {
+          id: 1,
+          text: "Hi! I love your dance tutorials!",
+          sender: "me",
+          timestamp: "2h ago",
+        },
+        {
+          id: 2,
+          text: "Hey! Thanks for following my dance tutorials! 💃",
+          sender: "them",
+          timestamp: "2h ago",
+          media: null,
+        },
+      ],
     },
     {
       id: 2,
       user: {
         name: "Fitness Pro",
         username: "@fitnesspro",
-        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop",
-        online: false
+        avatar:
+          "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop",
+        online: false,
       },
       lastMessage: "The workout plan has been updated!",
       timestamp: "1d ago",
       unread: 0,
       chatHistory: [
-        { id: 1, text: "Hey, how's the workout plan going?", sender: "them", timestamp: "2d ago" },
-        { id: 2, text: "It's great! Making progress!", sender: "me", timestamp: "1d ago" },
-        { 
-          id: 3, 
-          text: "Check out my latest workout!", 
-          sender: "them", 
+        {
+          id: 1,
+          text: "Hey, how's the workout plan going?",
+          sender: "them",
+          timestamp: "2d ago",
+        },
+        {
+          id: 2,
+          text: "It's great! Making progress!",
+          sender: "me",
+          timestamp: "1d ago",
+        },
+        {
+          id: 3,
+          text: "Check out my latest workout!",
+          sender: "them",
           timestamp: "1d ago",
           media: {
             type: "video",
-            url: "https://example.com/workout-video.mp4",
-            thumbnail: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&h=400&fit=crop"
-          }
-        }
-      ]
+            url: "https://video.twimg.com/amplify_video/1881486762985312257/vid/avc1/718x1280/YlpuJRHrNyAxf1Jf.mp4?tag=14",
+            thumbnail: videoframe_0,
+          },
+        },
+      ],
     },
     {
       id: 3,
       user: {
         name: "Cooking Master",
         username: "@cookingmaster",
-        avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
-        online: true
+        avatar:
+          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
+        online: true,
       },
       lastMessage: "I'll share the recipe with you soon 🥗",
       timestamp: "2d ago",
       unread: 0,
       chatHistory: [
-        { id: 1, text: "Your recipes are amazing!", sender: "me", timestamp: "3d ago" },
-        { 
-          id: 2, 
-          text: "Here's my latest creation!", 
-          sender: "them", 
+        {
+          id: 1,
+          text: "Your recipes are amazing!",
+          sender: "me",
+          timestamp: "3d ago",
+        },
+        {
+          id: 2,
+          text: "Here's my latest creation!",
+          sender: "them",
           timestamp: "2d ago",
           media: {
             type: "image",
-            url: "https://images.unsplash.com/photo-1547592180-85f173990554?w=600&h=400&fit=crop"
-          }
-        }
-      ]
-    }
+            url: "https://images.unsplash.com/photo-1547592180-85f173990554?w=600&h=400&fit=crop",
+          },
+        },
+      ],
+    },
   ];
 
   const handleMediaUpload = (e) => {
     const files = Array.from(e.target.files);
-    const newMedia = files.map(file => ({
+    const newMedia = files.map((file) => ({
       file,
       preview: URL.createObjectURL(file),
-      type: file.type.startsWith('image/') ? 'image' : 'video'
+      type: file.type.startsWith("image/") ? "image" : "video",
     }));
     setSelectedMedia([...selectedMedia, ...newMedia]);
   };
 
   const removeMedia = (index) => {
-    setSelectedMedia(prev => {
+    setSelectedMedia((prev) => {
       const newMedia = [...prev];
       URL.revokeObjectURL(newMedia[index].preview);
       newMedia.splice(index, 1);
@@ -107,13 +137,13 @@ const MessagesPage = () => {
 
     // Here you would typically upload the media files and send the message
     // For now, we'll just clear the input
-    setMessageInput('');
-    selectedMedia.forEach(media => URL.revokeObjectURL(media.preview));
+    setMessageInput("");
+    selectedMedia.forEach((media) => URL.revokeObjectURL(media.preview));
     setSelectedMedia([]);
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
     }
@@ -235,12 +265,17 @@ const MessagesPage = () => {
                     key={msg.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={`flex ${msg.sender === "me" ? "justify-end" : "justify-start"}`}>
-                    <div className={`max-w-[70%] ${msg.sender === "me" ? "bg-blue-600" : "bg-gray-700"} rounded-lg p-3`}>
+                    className={`flex ${
+                      msg.sender === "me" ? "justify-end" : "justify-start"
+                    }`}>
+                    <div
+                      className={`max-w-[70%] ${
+                        msg.sender === "me" ? "bg-blue-600" : "bg-gray-700"
+                      } rounded-lg p-3`}>
                       <p className="text-white">{msg.text}</p>
                       {msg.media && (
                         <div className="mt-2 rounded-lg overflow-hidden">
-                          {msg.media.type === 'image' ? (
+                          {msg.media.type === "image" ? (
                             <img
                               src={msg.media.url}
                               alt="Shared image"
@@ -256,7 +291,9 @@ const MessagesPage = () => {
                           )}
                         </div>
                       )}
-                      <p className="text-xs text-gray-300 mt-1">{msg.timestamp}</p>
+                      <p className="text-xs text-gray-300 mt-1">
+                        {msg.timestamp}
+                      </p>
                     </div>
                   </motion.div>
                 ))}
@@ -268,7 +305,7 @@ const MessagesPage = () => {
                   <div className="flex gap-2 mb-2 overflow-x-auto p-2">
                     {selectedMedia.map((media, index) => (
                       <div key={index} className="relative">
-                        {media.type === 'image' ? (
+                        {media.type === "image" ? (
                           <img
                             src={media.preview}
                             alt="Upload preview"
@@ -310,16 +347,14 @@ const MessagesPage = () => {
                     htmlFor="media-upload"
                     className="p-3 bg-gray-700 text-white rounded-lg cursor-pointer hover:bg-gray-600 transition-colors"
                     whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
+                    whileTap={{ scale: 0.95 }}>
                     📎
                   </motion.label>
                   <motion.button
                     onClick={handleSendMessage}
                     className="p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                     whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
+                    whileTap={{ scale: 0.95 }}>
                     Send
                   </motion.button>
                 </div>
