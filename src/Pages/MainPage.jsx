@@ -94,7 +94,7 @@ const MainPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-900">
+    <div className="flex min-h-screen bg-gray-900 pb-20">
       <AsideNav />
       
       <main className="flex-1 md:ml-64 md:mr-80">
@@ -246,20 +246,25 @@ const MainPage = () => {
 
                 <p className="px-4 mb-3 text-gray-300">{post.content}</p>
 
-                <div className="relative aspect-video bg-black" onMouseEnter={() => setHoveredVideo(post.id)} onMouseLeave={() => setHoveredVideo(null)}>
+                <div className="relative aspect-video bg-black group" onMouseEnter={() => setHoveredVideo(post.id)} onMouseLeave={() => setHoveredVideo(null)}>
                   <img
                     src={post.thumbnail}
                     alt={`${post.user.name}'s video thumbnail`}
-                    className={`w-full h-full object-cover ${hoveredVideo === post.id ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
+                    className={`w-full h-full object-contain ${hoveredVideo === post.id ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
                   />
                   <video
                     src={post.video}
-                    className={`absolute inset-0 w-full h-full object-cover ${hoveredVideo === post.id ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
+                    className={`absolute inset-0 w-full h-full object-contain ${hoveredVideo === post.id ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
                     autoPlay={hoveredVideo === post.id}
                     loop
                     playsInline
                     controls={hoveredVideo === post.id}
                     preload="metadata"
+                    onLoadedMetadata={(e) => {
+                      const video = e.target;
+                      const aspectRatio = video.videoWidth / video.videoHeight;
+                      video.parentElement.style.aspectRatio = aspectRatio;
+                    }}
                   />
                   {hoveredVideo !== post.id && (
                     <div className="absolute inset-0 flex items-center justify-center">
