@@ -261,9 +261,7 @@ const MainPage = () => {
                     controls={hoveredVideo === post.id}
                     preload="metadata"
                     onLoadedMetadata={(e) => {
-                      const video = e.target;
-                      const aspectRatio = video.videoWidth / video.videoHeight;
-                      video.parentElement.style.aspectRatio = aspectRatio;
+                      // Using fixed aspect ratio for consistent card dimensions
                     }}
                   />
                   {hoveredVideo !== post.id && (
