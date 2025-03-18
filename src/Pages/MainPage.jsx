@@ -116,7 +116,7 @@ const MainPage = () => {
                     autoPlay={hoveredVideo === post.id}
                     loop
                     playsInline
-                    muted
+                    
                     controls
                     preload="metadata"
                   />

@@ -147,7 +147,7 @@ const ProfilePage = () => {
                               src={post.video}
                               className="w-full h-full object-cover"
                               loop
-                              muted
+                            
                               playsInline
                               autoPlay={false}
                             />
