@@ -230,7 +230,7 @@ const MessagesPage = () => {
         {/* Chat Window */}
         <div
           className={`${
-            showMobileChat ? "block" : "hidden"
+            showMobileChat ? "block mb-[200px]" : "hidden"
           } md:flex flex-1 flex-col`}>
           {selectedChat ? (
             <>
